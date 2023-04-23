@@ -34,16 +34,11 @@ class _HomeState extends State<Home> {
     final width = MediaQuery.of(context).size.width * 0.9;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
       backgroundColor: Colors.teal,
       body: Center(
-        child: Container(
+        child: SizedBox(
           height: height,
           width: width,
-          // color: Colors.red,
           child: Stack(
             children: [
               Align(
@@ -96,7 +91,7 @@ class TopClipper extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(covariant CustomClipper oldClipper) => true;
+  bool shouldReclip(covariant CustomClipper oldClipper) => false;
 }
 
 class BottomClipper extends CustomClipper<Path> {
@@ -120,5 +115,5 @@ class BottomClipper extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(covariant CustomClipper oldClipper) => true;
+  bool shouldReclip(covariant CustomClipper oldClipper) => false;
 }
