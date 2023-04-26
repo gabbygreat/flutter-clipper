@@ -15,105 +15,47 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Home(),
+      home: const StaticHomePage(),
     );
   }
 }
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class StaticHomePage extends StatelessWidget {
+  const StaticHomePage({super.key});
 
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height * 0.7;
-    final width = MediaQuery.of(context).size.width * 0.9;
-
     return Scaffold(
-      backgroundColor: Colors.teal,
-      body: Center(
-        child: SizedBox(
-          height: height,
-          width: width,
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.topCenter,
-                child: ClipPath(
-                  clipper: TopClipper(),
-                  child: Container(
-                    color: Colors.black,
-                    height: 0.8 * height,
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: ClipPath(
-                  clipper: BottomClipper(),
-                  child: Container(
-                    color: Colors.red,
-                    height: 0.4 * height,
-                  ),
-                ),
-              ),
-            ],
+      body: Column(
+        children: [
+          ClipPath(
+            clipper: WavyPath(),
+            child: Container(
+              color: Colors.blueGrey,
+              height: MediaQuery.of(context).size.height * 0.35,
+            ),
           ),
-        ),
+          Container(
+            color: Colors.white,
+          ),
+        ],
       ),
     );
   }
 }
 
-class TopClipper extends CustomClipper<Path> {
+class WavyPath extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    var path = Path();
-    double offset = 30;
-    path.moveTo(0, offset);
-    path.lineTo(0, size.height / 1.5 - offset);
-    path.quadraticBezierTo(
-        0, size.height / 1.5, offset, size.height / 1.5 + offset / 2);
-    path.lineTo(size.width - offset, size.height - offset / 2);
-    path.quadraticBezierTo(
-        size.width, size.height, size.width, size.height - offset);
-    path.lineTo(size.width, offset);
-    path.quadraticBezierTo(size.width, 0, size.width - offset, 0);
-    path.lineTo(offset, 0);
-    path.quadraticBezierTo(0, 0, 0, offset);
+    Path path = Path();
+    path.lineTo(0, size.height - 50);
+    path.conicTo(size.width / 4, size.height - 25, size.width / 2, size.height - 50, 1);
+    path.conicTo(3 * size.width / 4, size.height - 75, size.width, size.height - 50, 1);
+    path.lineTo(size.width, 0);
     path.close();
-
     return path;
   }
 
   @override
-  bool shouldReclip(covariant CustomClipper oldClipper) => false;
-}
-
-class BottomClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    double offset = 30;
-
-    path.moveTo(0, offset);
-    path.lineTo(0, size.height - offset);
-    path.quadraticBezierTo(0, size.height, offset, size.height);
-    path.lineTo(size.width - offset, size.height);
-    path.quadraticBezierTo(
-        size.width, size.height, size.width, size.height - offset);
-    path.lineTo(size.width, size.height / 1.5 + offset);
-    path.quadraticBezierTo(size.width, size.height / 1.5, size.width - offset,
-        size.height / 1.5 - offset / 2);
-    path.lineTo(offset, offset / 2);
-    path.quadraticBezierTo(0, 0, 0, offset);
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper oldClipper) => false;
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => true;
 }
