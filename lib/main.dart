@@ -32,7 +32,7 @@ class StaticHomePage extends StatelessWidget {
             clipper: WavyPath(),
             child: Container(
               color: Colors.blueGrey,
-              height: MediaQuery.of(context).size.height * 0.35,
+              height: MediaQuery.of(context).size.height * 0.4,
             ),
           ),
           Container(
@@ -48,9 +48,16 @@ class WavyPath extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    path.lineTo(0, size.height - 50);
-    path.conicTo(size.width / 4, size.height - 25, size.width / 2, size.height - 50, 1);
-    path.conicTo(3 * size.width / 4, size.height - 75, size.width, size.height - 50, 1);
+    double offest = 40.0;
+    path.lineTo(0, size.height - offest);
+    path.cubicTo(
+      size.width / 3,
+      size.height,
+      2 * size.width / 3,
+      size.height - 2 * offest,
+      size.width,
+      size.height - offest,
+    );
     path.lineTo(size.width, 0);
     path.close();
     return path;
